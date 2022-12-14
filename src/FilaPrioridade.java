@@ -1,13 +1,17 @@
 public class FilaPrioridade<T> {
 	
-	
+	int quantosElementosEstaoNaFila;
 
 	
-	public FilaPrioridade() {
+	public FilaPrioridade() throws Exception {
 		this(10);
 	}
 	
-	public FilaPrioridade(int capacidadeInicial) {
+	public FilaPrioridade(int capacidadeInicial) throws Exception {
+		if(capacidadeInicial <= 0)
+			throw new Exception ("O tamananho da fila precisa ser um numero positivo");
+		
+		quantosElementosEstaoNaFila = 0;
 		
 	}
 	
@@ -19,8 +23,12 @@ public class FilaPrioridade<T> {
 		
 	}
 	
-	public T verUltimoElemento() {
+	public T verProximoElementoASerRemovido() { // nao remove, tem necessidade de ter esse metodo ??
 		
+	}
+	
+	public void redimensionsar (FilaPrioridade<T> filaARedimensionar) {
+		// quando estiver completamente preenchido aumenta a capacidade da fila
 	}
 	
 	
