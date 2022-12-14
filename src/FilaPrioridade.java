@@ -15,7 +15,7 @@ public class FilaPrioridade<T> {
 		
 	}
 	
-	public void adicionar() {
+	public void adicionar(T elementoAAdcionar) { // um segundo parametro para definir a prioridade do elemento adicionado
 		
 	}
 	
