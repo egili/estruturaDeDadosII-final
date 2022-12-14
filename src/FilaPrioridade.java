@@ -19,6 +19,10 @@ public class FilaPrioridade<T> {
 		
 	}
 	
+	public T verUltimoElemento() {
+		
+	}
+	
 	
 	@Override
 	public String toString() {
