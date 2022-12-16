@@ -1,96 +1,101 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class FilaPrioridade<T> {
 	
-	int quantosElementosEstaoNaFila;
-	int capacidade;
-	T[] fila;
+	private ArrayList<T> fila = new ArrayList<T> ();
+	private int primeiro = 0;
+	private int ultimo = 0;
+	private int total = 0;
 
 	public FilaPrioridade() throws Exception {
-		this(10);
+		ArrayList fila = new ArrayList(10);
+		//this(10);
 	}
 	
 	public FilaPrioridade(int capacidadeInicial) throws Exception {
 		if(capacidadeInicial <= 0)
 			throw new Exception ("O tamananho da fila precisa ser um numero positivo");
 		
-		capacidade = capacidadeInicial;
-		quantosElementosEstaoNaFila = 0;
-		
+		ArrayList fila = new ArrayList(capacidadeInicial);
 	}
 	
-	public boolean estaCheio() {
-		if (quantosElementosEstaoNaFila == capacidade -1 )
-			return true;
-		return false;
+	public boolean isEmpty() {
+		return total == 0;
+	}
+	
+	public boolean isFull() {
+		return total == fila.size();
 	}
 	
 	public void adicionar(T elementoAAdcionar) throws Exception { // um segundo parametro para definir a prioridade do elemento adicionado
-	
-		if(estaCheio()) {
+		if (isFull()) {
 			this.redimensionsar();
 		}
 		
-		Comparable<T> chave = (Comparable<T>) elementoAAdcionar;
-		int i;
-		for (i = 0; i < this.quantosElementosEstaoNaFila; i++) {
-			if(chave.compareTo(this.fila[i]) < 0) {
-				break;
-			}
-		}
-		//add elemento
+		fila.get(ultimo) = elementoAAdcionar;
+		ultimo = ultimo ++;
+		//preciso voltar aqui para redimensionar 
 	}
 		
 	
-	//public T remover() { não entendi pq do T nem o fato de não haver parametro
-	
-	public void remover(int posicao) {
-		for (int i = posicao; i< capacidade - 1; i++){
-			fila[i] = fila[i+1];
+	public T remover() throws Exception {
+		if(isEmpty()) {
+			throw new Exception ("Nao e possivel retirar nenhum elemento, a fila esta vazia");
 		}
-		capacidade--;
+		
+		T elemento = fila.get(primeiro);
+		primeiro = primeiro + 1;
+		total --;
+		return elemento;
 	}
+	
 	
 	public T verProximoElementoASerRemovido() { // nao remove, tem necessidade de ter esse metodo ??
+		T ProxRemov = fila.get(primeiro + 1);
+		return ProxRemov;		
+	}
+	
+	public void redimensionsar (FilaPrioridade<T> filaARedimensionar) {
 		
 	}
-	
-	public void redimensionsar (/*FilaPrioridade<T> filaARedimensionar*/) {
-		T[] elementosNovos = (T[]) new Object[this.fila.length * 2];
-		for (int i = 0; i < this.fila.length; i++){
-			 elementosNovos[i] = this.fila[i];
-		}
-		this.fila = elementosNovos;	
-		// quando estiver completamente preenchido aumenta a capacidade da fila
-	}
-	
 	
 	@Override
 	public String toString() {
-		
+		return "[" + fila + "]";
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (this.getClass() != obj.getClass()) return false;
-		FilaPrioridade<T> FilaE = (FilaPrioridade<T>) obj;
+		if (this == obj) 
+			return true;
+		if (obj == null || obj.getClass() != FilaPrioridade.class) 
+			return false;
 		
-		if(this.quantosElementosEstaoNaFila != FilaE.quantosElementosEstaoNaFila) return false;
-		if(this.capacidade != FilaE.capacidade) return false;
-		if(this.fila != FilaE.fila) return false;
-
+		FilaPrioridade filaPrioridade = (FilaPrioridade) obj;
+		
+		if(this.primeiro != filaPrioridade.primeiro) 
+			return false;
+		if(this.ultimo != filaPrioridade.ultimo) 
+			return false;
+		if(this.total != filaPrioridade.total) 
+			return false;
+		if(this.fila != filaPrioridade.fila)
+			return false;
+		
+		return true;
 	}
 	
 	
 	@Override
 	public int hashCode() {
 		int ret = 666;
-	    ret = 13 * ret + new Integer(this.capacidade).hashCode();
-	    ret = 13 * ret + new Integer(this.quantosElementosEstaoNaFila).hashCode();
-	    //ret = 13 * ret + new T(this.fila).hashCode(); --> Não sei fazer 
-	    
-	    if (ret < 0) ret = -ret;
-	    return ret;
+	    ret = 13 * ret + Integer.valueOf(primeiro).hashCode();
+	    ret = 13 * ret + Integer.valueOf(ultimo).hashCode();
+	    ret = 13 * ret + Integer.valueOf(total).hashCode();
+	   // ret = 13 * ret + T.valueOf(fila).hashCode(); Não sei se isso existe
+
+	    return ret < 0 ? -ret : ret;
 		
 	}
 }
