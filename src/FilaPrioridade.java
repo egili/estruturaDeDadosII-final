@@ -9,7 +9,7 @@ public class FilaPrioridade<T> {
 	private int total = 0;
 
 	public FilaPrioridade() throws Exception {
-		ArrayList fila = new ArrayList(10);
+		ArrayList<T> fila = new ArrayList<T>(10);
 		//this(10);
 	}
 	
@@ -17,52 +17,55 @@ public class FilaPrioridade<T> {
 		if(capacidadeInicial <= 0)
 			throw new Exception ("O tamananho da fila precisa ser um numero positivo");
 		
-		ArrayList fila = new ArrayList(capacidadeInicial);
+		ArrayList<T> fila = new ArrayList<T>(capacidadeInicial);
 	}
 	
 	public boolean isEmpty() {
 		return total == 0;
 	}
 	
-	public boolean isFull() {
-		return total == fila.size();
-	}
-	
-	public void adicionar(T elementoAAdcionar) throws Exception { // um segundo parametro para definir a prioridade do elemento adicionado
-		if (isFull()) {
-			this.redimensionsar();
+	public void adicionar(T elementoAAdcionar) throws Exception { 
+		Comparable<T> chave = (Comparable<T>) elementoAAdcionar;
+		int i;
+		
+		for (i = 0; i < fila.size(); i++) {
+			if(chave.compareTo(fila.get(i)) < 0)
+				break;	
 		}
-		
-		fila.get(ultimo) = elementoAAdcionar;
-		ultimo = ultimo ++;
-		//preciso voltar aqui para redimensionar 
+		fila.add(i, elementoAAdcionar);
 	}
 		
-	
 	public T remover() throws Exception {
 		if(isEmpty()) {
 			throw new Exception ("Nao e possivel retirar nenhum elemento, a fila esta vazia");
 		}
 		
-		T elemento = fila.get(primeiro);
 		primeiro = primeiro + 1;
 		total --;
-		return elemento;
-	}
+		return fila.remove(0);
+	}	
 	
-	
-	public T verProximoElementoASerRemovido() { // nao remove, tem necessidade de ter esse metodo ??
+	public T verProximoElementoASerRemovido() {
 		T ProxRemov = fila.get(primeiro + 1);
 		return ProxRemov;		
 	}
 	
-	public void redimensionsar (FilaPrioridade<T> filaARedimensionar) {
-		
-	}
+    public int tamanho(){ 
+        return fila.size();
+    }
+    
+//	public void redimensionsar (FilaPrioridade<T> filaARedimensionar) {	
+//	}
 	
 	@Override
 	public String toString() {
-		return "[" + fila + "]";
+		String texto = "";
+		
+		for (int i = 0; i < fila.size() - 1; i++) {
+			texto = fila.get(i) + ",";
+		}
+		
+		return "[" + texto + "]";
 	}
 	
 	@Override
@@ -72,7 +75,7 @@ public class FilaPrioridade<T> {
 		if (obj == null || obj.getClass() != FilaPrioridade.class) 
 			return false;
 		
-		FilaPrioridade filaPrioridade = (FilaPrioridade) obj;
+		FilaPrioridade<T> filaPrioridade = (FilaPrioridade<T>) obj;
 		
 		if(this.primeiro != filaPrioridade.primeiro) 
 			return false;
