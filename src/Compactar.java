@@ -69,7 +69,7 @@ public class Compactar
         StringBuilder dados = new StringBuilder(addBytesArvore(arvore));
         try {
             // criar um arquivo e abrir ele para escrita
-            File arquivo = new File(path+".compactar");
+            File arquivo = new File(path+".compress");
             RandomAccessFile arquivoDeEscita = new RandomAccessFile(arquivo.getAbsolutePath(),"rw");
 
             // escreve primeiro os bytes e suas frequencias (byte freq)

@@ -109,7 +109,7 @@ public class Descompactar {
             byte[] bytes = extrairBytesDaArvore(); // extrai os bytes da arvore e insere em um array de bytes
             try {
                 // e a funcao que torna possivel abir qualquer tipo de arquivo na main passando um caminho do pc
-                FileOutputStream outputStream = new FileOutputStream(Arquivo+"(descompactado)"+extencao);
+                FileOutputStream outputStream = new FileOutputStream(Arquivo+"(unzipped)"+extencao);
                 outputStream.write(bytes);// escreve o array de byte
             } catch (IOException e) {
                 System.out.println("Erro - criar caminho de extração");

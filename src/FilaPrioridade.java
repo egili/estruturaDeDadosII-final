@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
+// FILA QUE A ANA FEZ QUE PRECISA ADAPTAR E ADICIONAR MAIS MÉTODOS PRA FUNCIONAR
+
 public class FilaPrioridade<T> {
 	
 	private ArrayList<T> fila = new ArrayList<T> ();
@@ -23,7 +26,7 @@ public class FilaPrioridade<T> {
 	public boolean isEmpty() {
 		return total == 0;
 	}
-	
+
 	public void adicionar(T elementoAAdcionar) throws Exception { 
 		Comparable<T> chave = (Comparable<T>) elementoAAdcionar;
 		int i;
@@ -50,6 +53,7 @@ public class FilaPrioridade<T> {
 		return ProxRemov;		
 	}
 	
+
     public int tamanho(){ 
         return fila.size();
     }
