@@ -4,10 +4,10 @@
 
             try{
 
-                //Compactar compac = new Compactar();
-                //Descompactar desc = new Descompactar();
-                //compac.compactar("C:\\Users\\tayna\\OneDrive\\Área de Trabalho\\Compact\\Compactador\\src\\essa_musica_ja_se_tornou_trend_da_wandinha_no_tiktok.mp3");
-                //desc.extracao("C:\\Users\\tayna\\OneDrive\\Área de Trabalho\\Compact\\Compactador\\src\\essa_musica_ja_se_tornou_trend_da_wandinha_no_tiktok.mp3.compactar");
+                Compactar compac = new Compactar();
+                Descompactar desc = new Descompactar();
+                compac.compactar("C:\\Users\\adria\\Downloads\\Compactador\\src\\file.txt");
+                desc.extracao("C:\\Users\\adria\\Documents\\GitHub\\estruturaDeDadosII-final\\src\\file.txt.compactar");
             }
             catch (Exception e) {
                  throw new RuntimeException(e);
