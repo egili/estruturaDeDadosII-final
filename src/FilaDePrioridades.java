@@ -4,6 +4,9 @@ import java.util.List;
 public class FilaDePrioridades implements Cloneable{ //implements Cloneable
     private List<No> lista;
 
+// FILA QUE ESTÁ FUNCIONANDO
+
+
     //construtor da Fila
     public FilaDePrioridades (FilaDePrioridades modelo) throws Exception  
     {
