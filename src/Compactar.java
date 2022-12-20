@@ -11,80 +11,64 @@ public class Compactar
 {
 
     byte[] arquivoDeBytes;
-    FilaDePrioridades filaDePrioridades = new FilaDePrioridades();
+    FilaPrioridade filaP = new FilaPrioridade();
     Arvore arvore;
 
-    //compactar arquivo passado
     public void compactar(String arquivo) throws Exception {
         lerArquivo(arquivo);
         criarListaDePrioridade();
-        arvore = new Arvore((FilaDePrioridades)filaDePrioridades.clone());
+        arvore = new Arvore((FilaPrioridade)filaP.clone());
         gerarArquivoCompactado(arquivo);
     }
 
     private void lerArquivo(String arquivo) throws  Exception{
-        // ler o dococumento
        File newFIle = new File(arquivo);
-       RandomAccessFile acessoAoArquivo = new RandomAccessFile(newFIle, "rw");// e possivel ler e escrever dentro do arquivo
-       this.arquivoDeBytes = new byte[(int)acessoAoArquivo.length()];//ler a quantidade de bytes existentes no arquivo
-       acessoAoArquivo.read(this.arquivoDeBytes); //Lê um byte de dados deste arquivo.
-       acessoAoArquivo.close(); //fechar instancia do arquivo
+       RandomAccessFile acessoAoArquivo = new RandomAccessFile(newFIle, "rw");
+       this.arquivoDeBytes = new byte[(int)acessoAoArquivo.length()];
+       acessoAoArquivo.read(this.arquivoDeBytes);
+       acessoAoArquivo.close();
    }
 
-       //cria o map com bytes da arvore e adiciona na string
        private String addBytesArvore(Arvore a){
         StringBuilder mapDeBytes = new StringBuilder();
         Map<Byte, String>  map = a.toHashMap();
-        //para cada Byte do MAP, pega o valor e adiciona na string -> pega o caminho da arvore e cria um map de bytes
         for (byte arquivoDeBytes : this.arquivoDeBytes) {
-            mapDeBytes.append(map.get(arquivoDeBytes));//adicionar na ultima ocorrencia o mapeamento do arquivo de bytes
+            mapDeBytes.append(map.get(arquivoDeBytes));
         }
         return mapDeBytes.toString();
     }
-   private void criarListaDePrioridade() { //Aqui há os bytes e sua frequencia
+   private void criarListaDePrioridade() {
     Map<Byte, Integer> frequenciaDeBytes = new HashMap<>();
 
-   //verifica se o byte possui iteração(chave que o haspMap cria)
     for (byte arquivoDeBytes : this.arquivoDeBytes) {
         if(!frequenciaDeBytes.containsKey(arquivoDeBytes)) { 
-            // soma o valor da chave
             frequenciaDeBytes.put(arquivoDeBytes, 1);
-            // se existir anda uma casa para a direita e fico como maior prioridade
-
         } else {
-            // se NÃo existir, adicionar o byte com o valor 1
             frequenciaDeBytes.put(arquivoDeBytes,frequenciaDeBytes.get(arquivoDeBytes) + 1); 
         }
     }
 
-    // para cada chave do MAP, gera um novo Nó e o enfileira
-    // Cada Nó tem sua chave e valor 
-    frequenciaDeBytes.forEach((key, value) -> filaDePrioridades.enfileirar(new No(key, value)));
+    frequenciaDeBytes.forEach((key, value) -> filaP.adicionar(new No(key, value)));
 }
 
-
-    //gera o arquivo de compactação
-    private void gerarArquivoCompactado(String path){ //logica alterada por etapas e separada por bytes
+    private void gerarArquivoCompactado(String path){ 
         ArrayList teste = new ArrayList();
         StringBuilder dados = new StringBuilder(addBytesArvore(arvore));
         try {
-            // criar um arquivo e abrir ele para escrita
             File arquivo = new File(path+".compress");
             RandomAccessFile arquivoDeEscita = new RandomAccessFile(arquivo.getAbsolutePath(),"rw");
 
-            // escreve primeiro os bytes e suas frequencias (byte freq)
-            ArrayList<String> filaString = filaDePrioridades.showFila();
+            ArrayList<String> filaString = filaP.Fila();
 
             for (int i = 0; i < filaString.size(); i++) {
-                if(i%2==0){  //verifica se é par e
-                    arquivoDeEscita.writeByte((byte)Integer.parseInt(filaString.get(i)));  //escrevendo um byte
+                if(i%2==0){ 
+                    arquivoDeEscita.writeByte((byte)Integer.parseInt(filaString.get(i))); 
                 }
                 else {
                     arquivoDeEscita.writeInt(Integer.parseInt(filaString.get(i)));
                 }
             }
 
-            //escrever tres bytes 128 para separar
             arquivoDeEscita.write(Byte.MIN_VALUE);
             arquivoDeEscita.write(Byte.MIN_VALUE);
             arquivoDeEscita.write(Byte.MIN_VALUE);
@@ -100,24 +84,20 @@ public class Compactar
             }
 
             for (int i = 0; i < dados.length(); i++) {
-                auxiliar.append(dados.charAt(i)); //criar grupos de 7
+                auxiliar.append(dados.charAt(i));
                 if((i+1)%7==0){
                     byte b = deStringParaByte(auxiliar.toString());
-                    arquivoDeEscita.write(b); //escrevendo no arquivo
+                    arquivoDeEscita.write(b);
                     auxiliar = new StringBuilder();
                 }
             }
 
-            //bytes para separar
             arquivoDeEscita.write(Byte.MIN_VALUE);
             arquivoDeEscita.write(Byte.MIN_VALUE);
             arquivoDeEscita.write(Byte.MIN_VALUE);
-
-            //escrever o contador
+            
             arquivoDeEscita.write(contador);
 
-
-            //fecha o processo
             arquivoDeEscita.close();
         } catch (IOException e) {
             System.out.println("Erro - gerar arquivo compactado");
