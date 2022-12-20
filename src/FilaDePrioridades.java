@@ -1,3 +1,4 @@
+/*
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,8 +7,6 @@ public class FilaDePrioridades implements Cloneable{ //implements Cloneable
 
 // FILA QUE ESTÁ FUNCIONANDO
 
-
-    //construtor da Fila
     public FilaDePrioridades (FilaDePrioridades modelo) throws Exception  
     {
         if (modelo == null)
@@ -16,42 +15,39 @@ public class FilaDePrioridades implements Cloneable{ //implements Cloneable
         this.lista = copia(modelo.lista);
     }
     
-    //enfileira
     public void enfileirar(No item){
-         //percorre a lista
         for (int i = 0; i <lista.size(); i++){
-            //checa a se frequencia do item que estamos tentando inserir é menor que o próximo item da lista
             if(lista.get(i).getRepeticao() > item.getRepeticao()) {
-                //caso seja, faz a inserção
                 lista.add(i, item);
                 return;
             }
-        } // se chegou aqui ele é o maior ou a lista está vazia, então é só adicionar no final
+        }
         lista.add(item);
     }
 
-    //serve para enfilerar na ordem, transformando a fila do arquivo em uma que possamos utilizar
+    //ANA: NÃO COLQUEI NO NOSS, PRECISA????
     public void enfileirarNaOrdem(No item){
         lista.add(item);
     }
 
-    //verifica se a lista está vazia, caso não esteja remove o elemento
+ 
     public No removerElemento() throws Exception {
-        if(lista.isEmpty()) //verifica se a lista está vazia
+        if(lista.isEmpty()) 
             throw new Exception("Erro - remover elemento. Lista vazia");
 
-        return lista.remove(0); //remove o ultimo elemento
+        return lista.remove(0);
     }
 
-    //restaga o tamanho da lista
     public int tamanho(){ 
         return lista.size();
     }
 
+    //PRECISA DISSO?? NÃO COLOQUEI
     public FilaDePrioridades(){   //método publico que será usado para a classe compactar
         lista = new ArrayList<No>(); //é instanciado um novo arraylist do tipo "No" e adiciona a lista 
     }
 
+    //PRECISA DISSO?? NÃO COLOQUEI
     public ArrayList<String> showFila(){
         ArrayList<String> result = new ArrayList<>();
         for(No no : lista){ //declaramos o no e retornamos ele e sua frequência
@@ -61,11 +57,11 @@ public class FilaDePrioridades implements Cloneable{ //implements Cloneable
         return result;
     }
     
-    private List copia (List<No> lista)    //construtor de cópia
+    private List copia (List<No> lista)   
     {
         if (lista==null) return null;
 
-        List<No> result =  new ArrayList ();  //cria uma lista de No com base no List
+        List<No> result =  new ArrayList ();  
 
         for (No item: lista) {
             result.add( new No(item.getEsq(), item.getInfo(), item.getRepeticao(), item.getDir())); //adiciona o No com a sua informação, o que está a esuqerda a sua direita e a sua frequencia
@@ -74,7 +70,7 @@ public class FilaDePrioridades implements Cloneable{ //implements Cloneable
         return result;
     }
 
-    public Object clone () //método clone normal
+    public Object clone () 
     {
         FilaDePrioridades ret = null;
 
@@ -88,3 +84,4 @@ public class FilaDePrioridades implements Cloneable{ //implements Cloneable
         return ret;
     }
 }
+*/

@@ -1,108 +1,79 @@
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 
-// FILA QUE A ANA FEZ QUE PRECISA ADAPTAR E ADICIONAR MAIS MÉTODOS PRA FUNCIONAR
+// Fila Ana Adaptada
 
-public class FilaPrioridade<T> {
-	
-	private ArrayList<T> fila = new ArrayList<T> ();
-	private int primeiro = 0;
-	private int ultimo = 0;
-	private int total = 0;
+public class FilaPrioridade implements Cloneable {
+	private List<No> fila;
 
-	public FilaPrioridade() throws Exception {
-		ArrayList<T> fila = new ArrayList<T>(10);
-		//this(10);
+	public FilaPrioridade() {
+		this.fila = new ArrayList<No>(10);
 	}
 	
-	public FilaPrioridade(int capacidadeInicial) throws Exception {
-		if(capacidadeInicial <= 0)
+	public FilaPrioridade(FilaPrioridade capacidadeInicial) throws Exception {
+		if(capacidadeInicial == null)
 			throw new Exception ("O tamananho da fila precisa ser um numero positivo");
 		
-		ArrayList<T> fila = new ArrayList<T>(capacidadeInicial);
-	}
-	
-	public boolean isEmpty() {
-		return total == 0;
+		this.fila = Copia(capacidadeInicial.fila);
 	}
 
-	public void adicionar(T elementoAAdcionar) throws Exception { 
-		Comparable<T> chave = (Comparable<T>) elementoAAdcionar;
-		int i;
-		
-		for (i = 0; i < fila.size(); i++) {
-			if(chave.compareTo(fila.get(i)) < 0)
-				break;	
+	public void adicionar(No elementoAAdcionar) { 
+		for (int i = 0; i < fila.size(); i++) {
+			if(fila.get(i).getQtdR() > elementoAAdcionar.getQtdR()) {
+				fila.add(elementoAAdcionar);
+			}		
 		}
-		fila.add(i, elementoAAdcionar);
+		fila.add(elementoAAdcionar);
 	}
+	
+    public void enfileirar(No elementoAAdcionar){
+        fila.add(elementoAAdcionar);
+    }
 		
-	public T remover() throws Exception {
-		if(isEmpty()) {
+	public No remover() throws Exception {
+		if(fila.isEmpty()) {
 			throw new Exception ("Nao e possivel retirar nenhum elemento, a fila esta vazia");
 		}
-		
-		primeiro = primeiro + 1;
-		total --;
 		return fila.remove(0);
 	}	
 	
-	public T verProximoElementoASerRemovido() {
-		T ProxRemov = fila.get(primeiro + 1);
-		return ProxRemov;		
-	}
-	
-
-    public int tamanho(){ 
+    public int dimensao(){ 
         return fila.size();
     }
-    
-//	public void redimensionsar (FilaPrioridade<T> filaARedimensionar) {	
-//	}
 	
-	@Override
-	public String toString() {
-		String texto = "";
-		
-		for (int i = 0; i < fila.size() - 1; i++) {
-			texto = fila.get(i) + ",";
-		}
-		
-		return "[" + texto + "]";
-	}
+    public ArrayList<String> Fila(){
+        ArrayList<String> result = new ArrayList<>();
+        for(No no : fila){ 
+            result.add(no.getInfo() + "");
+            result.add(no.getQtdR() + "");
+        }
+        return result;
+    }
 	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) 
-			return true;
-		if (obj == null || obj.getClass() != FilaPrioridade.class) 
-			return false;
-		
-		FilaPrioridade<T> filaPrioridade = (FilaPrioridade<T>) obj;
-		
-		if(this.primeiro != filaPrioridade.primeiro) 
-			return false;
-		if(this.ultimo != filaPrioridade.ultimo) 
-			return false;
-		if(this.total != filaPrioridade.total) 
-			return false;
-		if(this.fila != filaPrioridade.fila)
-			return false;
-		
-		return true;
-	}
-	
-	
-	@Override
-	public int hashCode() {
-		int ret = 666;
-	    ret = 13 * ret + Integer.valueOf(primeiro).hashCode();
-	    ret = 13 * ret + Integer.valueOf(ultimo).hashCode();
-	    ret = 13 * ret + Integer.valueOf(total).hashCode();
-	   // ret = 13 * ret + T.valueOf(fila).hashCode(); Não sei se isso existe
+	private List Copia (List<No> fila)  
+    {
+        if (fila == null) 
+        	return null;
 
-	    return ret < 0 ? -ret : ret;
-		
-	}
+        List<No> result =  new ArrayList (); 
+
+        for (No elementoAAdcionar: fila) {
+            result.add(new No(elementoAAdcionar.getEsq(), elementoAAdcionar.getDir(), elementoAAdcionar.getInfo(), elementoAAdcionar.getQtdR()));
+        }
+
+        return result;
+    }
+
+    public Object clone () {
+    	FilaPrioridade ret = null;
+
+        try {
+            ret = new FilaPrioridade (this);
+        }
+        catch (Exception erro)
+        { }
+        
+        return ret;
+    }
 }

@@ -1,84 +1,73 @@
 public class No <X extends Comparable<X>>
 {
-
+    private No esq, dir;
+	private int qtdRep;
     private X  info;
 
-    private int repeticao;
-    private No esq,dir;
-
-    public No (X i)
-    {
-        this.esq =null;
-        this.info=i;
-        this.dir =null;
+    public No (X i) {
+        this.esq  = null;
+        this.dir  = null;
+        this.info = i;
     }
 
-    public No (int repeticao)
-    {
-        this.esq =null;
-        this.info=null;
-        this.dir =null;
-        this.repeticao = repeticao;
+    public No (int repeticao) {
+        this.esq  = null;
+        this.dir  = null;
+        this.info = null;
+        this.qtdRep = repeticao;
     }
 
-    public No (No e, X i, int f, No d)
-    {
-        this.esq =e;
-        this.info=i;
-        this.repeticao = f;
-        this.dir =d;
+    public No (No e, No d, X i, int q) {
+        this.esq  = e;
+        this.dir  = d;
+        this.info = i;
+        this.qtdRep = q;
+        
     }
 
-    public No (No e, int f, No d)
-    {
-        this.esq =e;
-        this.repeticao=f;
-        this.dir =d;
+    public No (No e, No d, int q) {
+        this.esq = e;
+        this.dir = d;
+        this.qtdRep = q;
     }
 
-    public No ( X i, int f)
-    {
-        this.esq =null;
-        this.info=i;
-        this.repeticao = f;
-        this.dir =null;
+    public No (X i, int q) {
+        this.esq = null;
+        this.dir = null;
+        this.info = i;
+        this.qtdRep = q;
+        
     }
 
-    public No getEsq ()
-    {
+    public No getEsq () {
         return this.esq;
     }
-
-    public X getInfo ()
-    {
-        return this.info;
-    }
-
-    public int getRepeticao() {
-        return repeticao;
-    }
-
-    public No getDir ()
-    {
+     
+    public No getDir () {
         return this.dir;
     }
 
-    public void setEsq (No e)
-    {
-        this.esq=e;
+    public X getInfo () {
+        return this.info;
     }
 
-    public void setRepeticao(int f){
-        this.repeticao = f;
+    public int getQtdR() {
+        return qtdRep;
     }
 
-    public void setInfo (X i)
-    {
-        this.info=i;
+    public void setEsq (No e) {
+        this.esq = e;
+    }
+    
+    public void setDir (No d) {
+        this.dir = d;
     }
 
-    public void setDir (No d)
-    {
-        this.dir=d;
+    public void setQtdR(int q){
+        this.qtdRep = q;
+    }
+
+    public void setInfo (X i) {
+        this.info = i;
     }
 }
