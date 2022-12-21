@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class Compactar
 {
 
@@ -37,7 +36,8 @@ public class Compactar
         }
         return mapDeBytes.toString();
     }
-   private void criarListaDePrioridade() {
+   @SuppressWarnings("unchecked")
+private void criarListaDePrioridade() {
     Map<Byte, Integer> frequenciaDeBytes = new HashMap<>();
 
     for (byte arquivoDeBytes : this.arquivoDeBytes) {

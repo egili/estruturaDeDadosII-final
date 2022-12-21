@@ -20,7 +20,7 @@ public class FilaPrioridade implements Cloneable {
 
 	public void adicionar(No elementoAAdcionar) { 
 		for (int i = 0; i < fila.size(); i++) {
-			if(fila.get(i).getQtdR() > elementoAAdcionar.getQtdR()) {
+			if(fila.get(i).getQtd() > elementoAAdcionar.getQtd()) {
 				fila.add(elementoAAdcionar);
 			}		
 		}
@@ -46,7 +46,7 @@ public class FilaPrioridade implements Cloneable {
         ArrayList<String> result = new ArrayList<>();
         for(No no : fila){ 
             result.add(no.getInfo() + "");
-            result.add(no.getQtdR() + "");
+            result.add(no.getQtd() + "");
         }
         return result;
     }
@@ -56,10 +56,10 @@ public class FilaPrioridade implements Cloneable {
         if (fila == null) 
         	return null;
 
-        List<No> result =  new ArrayList (); 
+        List<No> result =  new ArrayList(); 
 
         for (No elementoAAdcionar: fila) {
-            result.add(new No(elementoAAdcionar.getEsq(), elementoAAdcionar.getDir(), elementoAAdcionar.getInfo(), elementoAAdcionar.getQtdR()));
+        	 result.add(new No(elementoAAdcionar.getEsq(), elementoAAdcionar.getDir(), elementoAAdcionar.getInfo(), elementoAAdcionar.getQtd()));
         }
 
         return result;
