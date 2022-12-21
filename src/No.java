@@ -1,8 +1,8 @@
 public class No <X extends Comparable<X>>
 {
-    private No esq, dir;
-	private int qtdRep;
     private X  info;
+    private No esq, dir;
+    private int qtd;
 
     public No (X i) {
         this.esq  = null;
@@ -10,64 +10,63 @@ public class No <X extends Comparable<X>>
         this.info = i;
     }
 
-    public No (int repeticao) {
+    public No (int qtd) {
         this.esq  = null;
         this.dir  = null;
         this.info = null;
-        this.qtdRep = repeticao;
+        this.qtd  = qtd;
     }
 
     public No (No e, No d, X i, int q) {
         this.esq  = e;
         this.dir  = d;
         this.info = i;
-        this.qtdRep = q;
-        
+        this.qtd  = q;
     }
 
     public No (No e, No d, int q) {
         this.esq = e;
         this.dir = d;
-        this.qtdRep = q;
+        this.qtd = q;
     }
 
     public No (X i, int q) {
-        this.esq = null;
-        this.dir = null;
+        this.esq  = null;
+        this.dir  = null;
         this.info = i;
-        this.qtdRep = q;
-        
+        this.qtd  = q;
     }
 
     public No getEsq () {
         return this.esq;
-    }
-     
-    public No getDir () {
-        return this.dir;
     }
 
     public X getInfo () {
         return this.info;
     }
 
-    public int getQtdR() {
-        return qtdRep;
+    public int getQtd() {
+        return qtd;
     }
 
-    public void setEsq (No e) {
+    public No getDir () {
+        return this.dir;
+    }
+
+    public void setEsq (No e)
+    {
         this.esq = e;
     }
-    
-    public void setDir (No d) {
-        this.dir = d;
-    }
 
-    public void setQtdR(int q){
-        this.qtdRep = q;
+    public void setQtd(int q){
+        this.qtd = q;
     }
 
     public void setInfo (X i) {
-        this.info = i;
+        this.info=i;
+    }
+
+    public void setDir (No d) {
+        this.dir=d;
     }
 }

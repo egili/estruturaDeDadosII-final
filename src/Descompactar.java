@@ -10,7 +10,6 @@ public class Descompactar {
         Arvore arvore;
         String binario, extencao, arquivo;
 
-
         public void extracao(String arquivoCompactado) throws Exception {
             String arquivo = arquivoCompactado.replace("",""); 
             String[] ItensDoArquivo = arquivo.split("\\."); 
@@ -105,7 +104,7 @@ public class Descompactar {
         private byte[] extrairBytesDaArvore() {
             String binarioDescompactado = this.binario;
             ArrayList<Comparable> bytesAlt = new ArrayList<>();
-            ArrayList<Comparable> resultado = arvore.findByte(binarioDescompactado);
+            ArrayList<Comparable> resultado = arvore.EncontarByte(binarioDescompactado);
          
             for (Comparable b: resultado) {
                 bytesAlt.add(b);
