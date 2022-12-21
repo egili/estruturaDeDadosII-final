@@ -1,9 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
 
-
-// Fila Ana Adaptada
-
 public class FilaPrioridade implements Cloneable {
 	private List<No> fila;
 
