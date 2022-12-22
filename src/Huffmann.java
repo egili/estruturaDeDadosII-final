@@ -1,24 +1,18 @@
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
-public class Compactador {
+public class Huffmann {
 	
-	public class Compressor 
-	{
+	public class Compressor {
 	
 	    byte[] arquivoDeBytes;
-	    FilaPrioridade filaP = new FilaPrioridade();
+	    FilaPrioridade fila = new FilaPrioridade();
 	    Arvore arvore;
 	
 	    public void compress(String arquivo) throws Exception {
 	    	readFiles(arquivo);
 	        newListaPrioridade();
-	        arvore = new Arvore((FilaPrioridade)filaP.clone());
+	        arvore = new Arvore((FilaPrioridade)fila.clone());
 	        newCompressed(arquivo);
 	    }
 	
@@ -30,14 +24,14 @@ public class Compactador {
 	       accessArquivo.close();
 	   }
 	
-	       private String addBytesArvore(Arvore a){
-	        StringBuilder mapDeBytes = new StringBuilder();
-	        Map<Byte, String>  map = a.toHashMap();
-	        for (byte arquivoDeBytes : this.arquivoDeBytes) {
-	            mapDeBytes.append(map.get(arquivoDeBytes));
-	        }
-	        return mapDeBytes.toString();
-	    }
+       private String addBytesArvore(Arvore a){
+	       StringBuilder mapDeBytes = new StringBuilder();
+	       Map<Byte, String>  map = a.toHashMap();
+	       for (byte arquivoDeBytes : this.arquivoDeBytes) {
+	           mapDeBytes.append(map.get(arquivoDeBytes));
+	       }
+	       return mapDeBytes.toString();
+       }
 	
 	private void newListaPrioridade() {
 	    Map<Byte, Integer> qtdBytes = new HashMap<>();
@@ -50,17 +44,17 @@ public class Compactador {
 	        }
 	    }
 	
-	    qtdBytes.forEach((key, value) -> filaP.adicionar(new No(key, value)));
+	    qtdBytes.forEach((key, value) -> fila.adicionar(new No(key, value)));
 	}
 	
 	    private void newCompressed(String path){ 
-	        ArrayList teste = new ArrayList();
 	        StringBuilder dados = new StringBuilder(addBytesArvore(arvore));
+	        
 	        try {
-	            File arquivo = new File(path + ".compress");
+	            File arquivo = new File(path + ".zip");
 	            RandomAccessFile arquivoDeEscita = new RandomAccessFile(arquivo.getAbsolutePath(),"rw");
 	
-	            ArrayList<String> filaString = filaP.Fila();
+	            ArrayList<String> filaString = fila.fila();
 	
 	            for (int i = 0; i < filaString.size(); i++) {
 	                if(i%2==0){ 
@@ -78,8 +72,8 @@ public class Compactador {
 	            StringBuilder auxiliar = new StringBuilder();
 	            int contador = 0;
 	
-	            if(!(dados.length()%7==0)){
-	                while (!(dados.length()%7==0)){
+	            if(!(dados.length() % 7 == 0)){
+	                while (!(dados.length() % 7 == 0)){
 	                    dados.append("0");
 	                    contador++;
 	                }
@@ -87,8 +81,9 @@ public class Compactador {
 	
 	            for (int i = 0; i < dados.length(); i++) {
 	                auxiliar.append(dados.charAt(i));
-	                if((i+1)%7==0){
-	                    byte b = converterStringByte(auxiliar.toString());
+	                
+	                if((i+1) % 7 == 0){
+	                    byte b = HuffmannHelper.converterStringByte(auxiliar.toString());
 	                    arquivoDeEscita.write(b);
 	                    auxiliar = new StringBuilder();
 	                }
@@ -106,52 +101,24 @@ public class Compactador {
 	            e.printStackTrace();
 	        }
 	    }
-	    private byte converterStringByte(String x){
-	
-	        byte ret = (byte)0;
-	
-	        for (byte ps =(byte)6,pb=(byte)0;pb<7;ps--,pb++) {
-	            if(x.charAt(ps)=='1'){
-	                ret = setBit(pb,ret);
-	            }
-	        }
-	        return ret;
-	    }
-	
-	    private byte setBit(byte qualBit,byte valor){
-	        byte mascara = (byte) 1;
-	
-	        mascara<<=qualBit;
-	
-	        return (byte) (valor | mascara);
-	    }
-	
-	    byte resetBit (byte qualBit,byte valor){
-	        byte mascara = (byte) 1;
-	
-	        mascara >>= qualBit;
-	        mascara = (byte) ~mascara;
-	
-	        return (byte) (valor & mascara);
-	    }
 	}
 
 	public class Descompressor {
 		
 	    FilaPrioridade filaP = new FilaPrioridade();
 	    Arvore arvore;
-	    String binario, extencao, arquivo;
+	    String binario, extensao, arquivo;
 	
 	    public void unzip(String arquivoCompactado) throws Exception {
 	        String arquivo = arquivoCompactado.replace("",""); 
 	        String[] ItensDoArquivo = arquivo.split("\\."); 
 	
 	        arquivo = ItensDoArquivo[0];
-	        extencao= "." + ItensDoArquivo[1];
+	        extensao= "." + ItensDoArquivo[1];
 	
 	        readFiles(arquivoCompactado);
 	        arvore = new Arvore((FilaPrioridade)filaP.clone());
-	        ArrayList<String> filaString = filaP.Fila();
+	        ArrayList<String> filaString = filaP.fila();
 	
 	        newUnzipper();
 	    }
@@ -171,25 +138,26 @@ public class Compactador {
 	                break;
 	            }
 	            
-	            if(i%5==0){
+	            if(i % 5 == 0){
 	                byte[] b = new byte[4]; 
-	                b[0] = (dados[i+1]);
-	                b[1] = (dados[i+2]);
-	                b[2] = (dados[i+3]);
-	                b[3] = (dados[i+4]);
+	                b[0] = (dados[i + 1]);
+	                b[1] = (dados[i + 2]);
+	                b[2] = (dados[i + 3]);
+	                b[3] = (dados[i + 4]);
 	
-	                filaP.enfileirar(new No((int)dados[i], converterArrByteArrInt(b)));
+	                filaP.enfileirar(new No((int)dados[i], HuffmannHelper.converterArrByteArrInt(b)));
 	            }
 	        }
 	
 	        StringBuilder binariosDoArquivo = new StringBuilder();
+	        
 	        for (int i = indexAtual; i < dados.length; i++) {
-	            if(dados[i]==-128 && dados[i+1]==-128 && dados[i+2]==-128 ){
+	            if(dados[i] == -128 && dados[i+1] == -128 && dados[i+2] == -128){
 	                indexAtual = i+3;
 	                break;
 	            }
 	
-	            if(Integer.toBinaryString(dados[i]).length()!=7){
+	            if(Integer.toBinaryString(dados[i]).length() != 7){
 	                StringBuilder zerosQueFaltam = new StringBuilder();
 	
 	                int diferenca = Integer.toBinaryString(dados[i]).length() - 7;
@@ -217,9 +185,7 @@ public class Compactador {
 	            }
 	        }else binariosOriginais = binariosDoArquivo;
 	
-	
 	        binario = binariosOriginais.toString();
-	
 	    }
 	
 	    private void newUnzipper() throws Exception {
@@ -227,7 +193,7 @@ public class Compactador {
 	    	byte[] bytes = extrairBytesDaArvore();
 	        
 	        try {
-	            FileOutputStream outputStream = new FileOutputStream(arquivo + "(unzipped)" + extencao);
+	            FileOutputStream outputStream = new FileOutputStream(arquivo + "(unzipped)" + extensao);
 	            outputStream.write(bytes);
 	        } catch (IOException e) {
 	            System.out.println("Erro - criar caminho de extração");
@@ -251,16 +217,5 @@ public class Compactador {
 	        }
 	        return bytes;
 	    }
-	  
-	    public int converterArrByteArrInt(byte[] array) {
-	        int valor = 0;
-	        for (byte b : array) {
-	            valor = (valor << 8) + (b & 0xFF);
-	        }
-	
-	        return valor;
-	    }
-	
 	}
 }
-
