@@ -6,6 +6,7 @@ public class Arvore implements Cloneable {
 	private No raiz = null;
 
 	private String preOrdem (No r) {
+		
 		if (r == null) 
 			return "";
 
@@ -15,6 +16,7 @@ public class Arvore implements Cloneable {
 	}
 
 	private String inOrdem (No r) {
+		
 		if (r == null) 
 			return "";
 
@@ -24,6 +26,7 @@ public class Arvore implements Cloneable {
 	}
 
 	private String posOrdem (No r) {
+		
 		if (r == null) 
 			return "";
 
@@ -34,57 +37,38 @@ public class Arvore implements Cloneable {
 
 	@Override
 	public String toString () {
-		String pre=this.preOrdem(this.raiz),
-		       in =this.inOrdem (this.raiz),
-			   pos=this.posOrdem(this.raiz);
+		String pre = this.preOrdem(this.raiz),
+		       in = this.inOrdem (this.raiz),
+			   pos = this.posOrdem(this.raiz);
 
-		return "Pré-ordem: " + (pre.equals("")?"árvore vazia":pre) + "\n" +
-		       "In-ordem : " + (in .equals("")?"árvore vazia":in ) + "\n" +
-			   "Pós-ordem: " + (pos.equals("")?"árvore vazia":pos);
+		return "Pre-ordem: " + (pre.equals("") ? "Arvore vazia":pre) + "\n" +
+		       "In-ordem : " + (in .equals("") ? "Arvore vazia":in ) + "\n" +
+			   "Po-ordem: " + (pos.equals("") ? "Arvore vazia":pos);
 	}
 
 	private boolean equals (No raizA, No raizB) {
-		if (raizA == null && raizB != null) 
-			return false;
-		
-		if (raizA != null && raizB == null) 
-			return false;
-		
-		if (raizA == null && raizB == null) 
-			return true;
-
-		if (!raizA.getInfo().equals(raizB.getInfo())) 
-			return false;
-
-		return equals (raizA.getEsq(),raizB.getEsq()) &&
-			   equals (raizA.getDir(),raizB.getDir());
+		return (raizA == null && raizB != null) 
+				|| (raizA != null && raizB == null) 
+				|| (raizA == null && raizB == null) 
+				|| (!raizA.getInfo().equals(raizB.getInfo())) 
+				? false 
+				: equals (raizA.getEsq(),raizB.getEsq()) && equals (raizA.getDir(),raizB.getDir());
 	}
 
 	@Override
     public boolean equals (Object obj) {
-		if (obj == this) 
-			return true;
-		
-		if (obj == null)
-			return false;
-		
-		if (this.getClass()!=obj.getClass()) 
-			return false;
-
-		Arvore arv = (Arvore)obj;
-
-		return equals(this.raiz,arv.raiz);
+		return obj == this ? true : obj == null || this.getClass() != obj.getClass() ? false : equals(this.raiz, ((Arvore) obj).raiz);
 	}
 
     private int hashCode (No raiz) {
-		int ret = 2;
+		int ret = 13;
 
 		if (raiz != null) {
-			ret = 5 * ret + raiz.getInfo().hashCode();
+			ret = 3 * ret + raiz.getInfo().hashCode();
 			ret = 5 * ret + hashCode (raiz.getEsq());
-			ret = 5 * ret + hashCode (raiz.getDir());
+			ret = 11 * ret + hashCode (raiz.getDir());
 		}
-		return ret;
+		return ret < 0 ? -ret : ret;
 	}
 
 	@Override
@@ -94,7 +78,7 @@ public class Arvore implements Cloneable {
 
 	private No Copia (No raiz)
 	{
-		if (raiz==null) return null;
+		if (raiz == null) return null;
 
 		return new No (Copia(raiz.getEsq()),
 				       Copia(raiz.getDir()),
@@ -109,7 +93,7 @@ public class Arvore implements Cloneable {
 		this.raiz = Copia(arvore.raiz);
 	}
 
-	//Criação da árvore pela fila
+	// Criacao da arvore pela fila
 	public Arvore (FilaPrioridade fila) { 
 		try {
 			while (fila.getTamanho() >= 2) { 
@@ -120,6 +104,7 @@ public class Arvore implements Cloneable {
 					no.setQtd(no.getDir().getQtd() + no.getEsq().getQtd());
 					fila.adicionar(no);
 			}
+			
 		this.raiz = fila.remover(); 
 			
 		} catch (Exception e) {
@@ -127,7 +112,6 @@ public class Arvore implements Cloneable {
 		}
 	}
 
-	//hasmap --> cria uma chave pra cada item armazenado
 	private void toHashMap(No n, Map<Byte, String> map, String codigo) {
 		if(n.getDir() == null && n.getEsq() == null)  //Chegou em uma folha
 				map.put((Byte)n.getInfo(), codigo);
@@ -152,6 +136,7 @@ public class Arvore implements Cloneable {
 			ret = new Arvore (this);
 		}
 		catch (Exception erro) {}
+		
 		return ret;
 	}
 	
@@ -174,4 +159,3 @@ public class Arvore implements Cloneable {
 		return ret;
 	}
 }
-
