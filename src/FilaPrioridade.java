@@ -72,8 +72,8 @@ public class FilaPrioridade implements Cloneable {
     	return String.valueOf(this.fila);
     }
     
-    private List construtorCopia (List<No> lista) {
-        if (lista == null) 
+    private List construtorCopia (List<No> fila) {
+        if (fila == null) 
         	return null;
 
         List<No> result =  new ArrayList ();
