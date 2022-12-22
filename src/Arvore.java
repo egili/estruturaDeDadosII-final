@@ -112,7 +112,8 @@ public class Arvore implements Cloneable {
 	//Criação da árvore pela fila
 	public Arvore (FilaPrioridade fila) { 
 		try {
-			while (fila.dimensao() >= 2) { 
+			while (fila.getTamanho() >= 2) { 
+				
 					No no = new No(null);
 					no.setEsq(fila.remover());
 					no.setDir(fila.remover());
