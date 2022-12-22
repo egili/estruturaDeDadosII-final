@@ -2,93 +2,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FilaPrioridade implements Cloneable {
+    private List<No> fila;
 
-	private List<No> fila;
-
-    public FilaPrioridade(int capacidadeInicial) throws Exception {
-
-        if(capacidadeInicial <= 0)
-            throw new Exception("O tamananho da fila precisa ser um numero positivo");
-
-        this.fila = new ArrayList<No>(capacidadeInicial);
+    public FilaPrioridade() {   //método publico que será usado para a classe huffmann
+        fila = new ArrayList<No>();
     }
+    
+    public FilaPrioridade (FilaPrioridade modelo) throws Exception {
+        if (modelo == null)
+            throw new Exception("modelo ausente");
 
-	public FilaPrioridade() {
-        this.fila = new ArrayList<No>(10);
-	}
-	
-	public FilaPrioridade(FilaPrioridade filaACopiar) throws Exception {
-
-		if(filaACopiar == null)
-			throw new Exception ("A fila a copiar estava nula");
-		
-		this.fila = constructorCopia(filaACopiar.fila);
-	}
-
-	public void adicionar(No elementoAAdcionar) { 
-		for (int i = 0; i < fila.size(); i++) {
-			if(fila.get(i).getQtd() > elementoAAdcionar.getQtd()) {
-				fila.add(elementoAAdcionar);
-			}		
-		}
-		fila.add(elementoAAdcionar);
-	}
-	
-    public void enfileirar(No elementoAAdcionar){
+        this.fila = construtorCopia(modelo.fila);
+    }
+        
+    public void addEnfileirado(No elementoAAdcionar) {
+        for (int i = 0; i < fila.size(); i++){
+            if(fila.get(i).getQtd() > elementoAAdcionar.getQtd()) { 
+                fila.add(i, elementoAAdcionar);
+                return;
+            }
+        }
         fila.add(elementoAAdcionar);
     }
-	
-	public No remover() throws Exception {
-		if(fila.isEmpty()) {
-			throw new Exception ("Nao e possivel retirar nenhum elemento, a fila esta vazia");
-		}
-		return fila.remove(0);
-	}	
-	
-    public int getTamanho(){ 
-        return fila.size();
-    }
-	
-    public ArrayList<String> fila(){
-        ArrayList<String> result = new ArrayList<>();
 
-        for(No no : fila){ 
+    public void addElemento(No elementoAAdcionar){
+        fila.add(elementoAAdcionar);
+    }
+
+    public No remover() throws Exception {
+        if(fila.isEmpty()) 
+            throw new Exception("Não e possivel remover um elemento, a fila esta vazia");
+
+        return fila.remove(0);
+    }
+
+    public ArrayList<String> retFila() {
+        ArrayList<String> result = new ArrayList<>();
+        
+        for(No no : fila) { 
             result.add(no.getInfo() + "");
             result.add(no.getQtd() + "");
         }
         return result;
     }
-	
-	private List constructorCopia (List<No> fila) {
-
-        if (fila == null) 
-        	return null;
-
-        List<No> result = new ArrayList(); 
-
-        for (No elementoAAdcionar : fila) {
-        	result.add(
-        			new No(
-        					elementoAAdcionar.getEsq(),
-        					elementoAAdcionar.getDir(),
-        					elementoAAdcionar.getInfo(), 
-        					elementoAAdcionar.getQtd()
-        					)
-        			);
-        }
-        return result;
-    }
-
-    public Object clone () {
-    	FilaPrioridade ret = null;
-
-        try {
-            ret = new FilaPrioridade(this);
-        }
-        catch (Exception erro){
-            System.err.println(erro.getMessage());
-        }
-        return ret;
+    
+    public int size() { 
+        return fila.size();
     }
     
     @Override
@@ -110,6 +69,39 @@ public class FilaPrioridade implements Cloneable {
     
     @Override
     public String toString() {
-    	return String.valueOf(this.fila());
+    	return String.valueOf(this.fila);
+    }
+    
+    private List construtorCopia (List<No> lista) {
+        if (lista == null) 
+        	return null;
+
+        List<No> result =  new ArrayList ();
+
+        for (No elementoAAdcionar : fila) {
+        	result.add(
+        			new No(
+        					elementoAAdcionar.getEsq(),
+        					elementoAAdcionar.getDir(),
+        					elementoAAdcionar.getInfo(), 
+        					elementoAAdcionar.getQtd()
+        					)
+        			);
+        }
+
+        return result;
+    }
+
+    public Object clone () {
+    	FilaPrioridade ret = null;
+
+        try {
+            ret = new FilaPrioridade (this);
+        }
+        catch (Exception erro){
+        	 System.err.println(erro.getMessage());
+        }
+
+        return ret;
     }
 }
