@@ -41,17 +41,16 @@ public class Arvore implements Cloneable {
 		this.raiz = construtorDeCopia(modelo.raiz);
 	}
 
-	// Criacao da arvore pela fila PRECISA MEXER NISSO PARA ONTEM, MUDAR LOGICA
+	// Criacao da arvore pela fila PRECISA MEXER NISSO, MUDAR LOGICA
 	public Arvore (FilaPrioridade fila) { 
 		try {
-			while (fila.size() >= 2) { 
-				
+			do {
 					No no = new No(null);
 					no.setEsq(fila.remover());
 					no.setDir(fila.remover());
 					no.setQtd(no.getDir().getQtd() + no.getEsq().getQtd());
 					fila.addEnfileirado(no);
-			}
+			} while(fila.size() >= 2);
 			
 		this.raiz = fila.remover(); 
 			
