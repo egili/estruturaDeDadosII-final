@@ -44,7 +44,7 @@ public class Huffmann {
 	        }
 	    }
 	
-	    qtdBytes.forEach((key, value) -> fila.adicionar(new No(key, value)));
+	    qtdBytes.forEach((key, value) -> fila.addEnfileirado(new No(key, value)));
 	}
 	
 	    private void newCompressed(String path){ 
@@ -54,7 +54,7 @@ public class Huffmann {
 	            File arquivo = new File(path + ".zip");
 	            RandomAccessFile arquivoDeEscita = new RandomAccessFile(arquivo.getAbsolutePath(),"rw");
 	
-	            ArrayList<String> filaString = fila.fila();
+	            ArrayList<String> filaString = fila.retFila();
 	
 	            for (int i = 0; i < filaString.size(); i++) {
 	                if(i%2==0){ 
@@ -118,7 +118,7 @@ public class Huffmann {
 	
 	        readFiles(arquivoCompactado);
 	        arvore = new Arvore((FilaPrioridade)filaP.clone());
-	        ArrayList<String> filaString = filaP.fila();
+	        ArrayList<String> filaString = filaP.retFila();
 	
 	        newUnzipper();
 	    }
@@ -145,7 +145,7 @@ public class Huffmann {
 	                b[2] = (dados[i + 3]);
 	                b[3] = (dados[i + 4]);
 	
-	                filaP.enfileirar(new No((int)dados[i], HuffmannHelper.converterArrByteArrInt(b)));
+	                filaP.addElemento(new No((int)dados[i], HuffmannHelper.converterArrByteArrInt(b)));
 	            }
 	        }
 	

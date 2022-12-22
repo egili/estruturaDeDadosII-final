@@ -34,6 +34,68 @@ public class Arvore implements Cloneable {
 			   this.posOrdem(r.getDir()) + " " +
 			   r.getInfo();
 	}
+	
+	public Arvore (Arvore modelo) throws Exception {
+		if (modelo == null) throw new Exception ("modelo ausente");
+
+		this.raiz = construtorDeCopia(modelo.raiz);
+	}
+
+	// Criacao da arvore pela fila PRECISA MEXER NISSO PARA ONTEM, MUDAR LOGICA
+	public Arvore (FilaPrioridade fila) { 
+		try {
+			while (fila.size() >= 2) { 
+				
+					No no = new No(null);
+					no.setEsq(fila.remover());
+					no.setDir(fila.remover());
+					no.setQtd(no.getDir().getQtd() + no.getEsq().getQtd());
+					fila.addEnfileirado(no);
+			}
+			
+		this.raiz = fila.remover(); 
+			
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private void toHashMap(No n, Map<Byte, String> map, String codigo) {
+		if(n.getDir() == null && n.getEsq() == null)  //Chegou em uma folha
+				map.put((Byte)n.getInfo(), codigo);
+		
+		if(n.getDir() != null)
+			toHashMap(n.getDir(), map, codigo + "1"); //Toda vez que vai para direira 1
+
+		if(n.getEsq() != null)
+			toHashMap(n.getEsq(), map, codigo + "0"); //Vai para esquerda 0
+	}
+
+	//retorna o map ja que o metodo e privado
+	public Map<Byte, String> toHashMap() {
+		Map<Byte, String> map = new HashMap<>();
+		toHashMap(this.raiz, map, "");
+		return map;
+	}
+
+	public ArrayList<Comparable> EncontarByte(String binario) {
+		No no = this.raiz;
+		ArrayList<Comparable> ret = new ArrayList<>();
+
+		for (int i = 0; i < binario.length(); i++) { //procura a folha
+			if (binario.charAt(i) == '0') {
+				no = no.getEsq(); //Vai para esquerda pois e 0
+			} 
+			else {
+				no = no.getDir(); //Vai para direita pois e 1
+			}
+			if (no.getInfo() != null) { //Acha informacao e coloca na array 
+				ret.add(no.getInfo());
+				no = this.raiz;
+			}
+		}
+		return ret;
+	}
 
 	@Override
 	public String toString () {
@@ -76,58 +138,15 @@ public class Arvore implements Cloneable {
 		return hashCode (this.raiz);
 	}
 
-	private No Copia (No raiz)
+	private No construtorDeCopia (No raiz)
 	{
 		if (raiz == null) return null;
 
-		return new No (Copia(raiz.getEsq()),
-				       Copia(raiz.getDir()),
+		return new No (construtorDeCopia(raiz.getEsq()),
+					   construtorDeCopia(raiz.getDir()),
 			           raiz.getInfo(),
 					   raiz.getQtd()
 			          );
-	}
-
-	public Arvore (Arvore arvore) throws Exception {
-		if (arvore == null) throw new Exception ("arvore ausente");
-
-		this.raiz = Copia(arvore.raiz);
-	}
-
-	// Criacao da arvore pela fila
-	public Arvore (FilaPrioridade fila) { 
-		try {
-			while (fila.getTamanho() >= 2) { 
-				
-					No no = new No(null);
-					no.setEsq(fila.remover());
-					no.setDir(fila.remover());
-					no.setQtd(no.getDir().getQtd() + no.getEsq().getQtd());
-					fila.adicionar(no);
-			}
-			
-		this.raiz = fila.remover(); 
-			
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	private void toHashMap(No n, Map<Byte, String> map, String codigo) {
-		if(n.getDir() == null && n.getEsq() == null)  //Chegou em uma folha
-				map.put((Byte)n.getInfo(), codigo);
-		
-		if(n.getDir() != null)
-			toHashMap(n.getDir(), map, codigo + "1"); //Toda vez que vai para direira 1
-
-		if(n.getEsq() != null)
-			toHashMap(n.getEsq(), map, codigo + "0"); //Vai para esquerda 0
-	}
-
-	//retorna o map já que o método é privado
-	public Map<Byte, String> toHashMap() {
-		Map<Byte, String> map = new HashMap<>();
-		toHashMap(this.raiz, map, "");
-		return map;
 	}
 
 	public Object clone () {
@@ -137,25 +156,6 @@ public class Arvore implements Cloneable {
 		}
 		catch (Exception erro) {}
 		
-		return ret;
-	}
-	
-	public ArrayList<Comparable> EncontarByte(String binario) {
-		No no = this.raiz;
-		ArrayList<Comparable> ret = new ArrayList<>();
-
-		for (int i = 0; i < binario.length(); i++) { //procura a folha
-			if (binario.charAt(i) == '0') {
-				no = no.getEsq(); //Vai para esquerda pois é 0
-			} 
-			else {
-				no = no.getDir(); //Vai para direita pois é 1
-			}
-			if (no.getInfo() != null) { //Acha informação e coloca na array 
-				ret.add(no.getInfo());
-				no = this.raiz;
-			}
-		}
 		return ret;
 	}
 }
