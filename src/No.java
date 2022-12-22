@@ -1,5 +1,4 @@
-public class No <X extends Comparable<X>>
-{
+public class No <X extends Comparable<X>>{
     private X info;
     private No esq, dir;
     private int qtd;

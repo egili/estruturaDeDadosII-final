@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Arvore implements Cloneable {
+public class ArvoreHuffmann implements Cloneable {
 	private No raiz = null;
 
 	private String preOrdem (No r) {
@@ -10,9 +10,7 @@ public class Arvore implements Cloneable {
 		if (r == null) 
 			return "";
 
-		return r.getInfo() + " " +
-		       this.preOrdem(r.getEsq()) + " " +
-			   this.preOrdem(r.getDir());
+		return r.getInfo() + " " +  this.preOrdem(r.getEsq()) + " " + this.preOrdem(r.getDir());
 	}
 
 	private String inOrdem (No r) {
@@ -20,9 +18,7 @@ public class Arvore implements Cloneable {
 		if (r == null) 
 			return "";
 
-		return this.inOrdem(r.getEsq()) + " " +
-		       r.getInfo() + " " +
-			   this.inOrdem(r.getDir());
+		return this.inOrdem(r.getEsq()) + " " + r.getInfo() + " " + this.inOrdem(r.getDir());
 	}
 
 	private String posOrdem (No r) {
@@ -30,26 +26,25 @@ public class Arvore implements Cloneable {
 		if (r == null) 
 			return "";
 
-		return this.posOrdem(r.getEsq()) + " " +
-			   this.posOrdem(r.getDir()) + " " +
-			   r.getInfo();
+		return this.posOrdem(r.getEsq()) + " " + this.posOrdem(r.getDir()) + " " + r.getInfo();
 	}
 	
-	public Arvore (Arvore modelo) throws Exception {
+	public ArvoreHuffmann (ArvoreHuffmann modelo) throws Exception {
 		if (modelo == null) throw new Exception ("modelo ausente");
 
 		this.raiz = construtorDeCopia(modelo.raiz);
 	}
 
 	// Criacao da arvore pela fila PRECISA MEXER NISSO, MUDAR LOGICA
-	public Arvore (FilaPrioridade fila) { 
+	public ArvoreHuffmann (FilaPrioridade fila) { 
 		try {
 			do {
-					No no = new No(null);
-					no.setEsq(fila.remover());
-					no.setDir(fila.remover());
-					no.setQtd(no.getDir().getQtd() + no.getEsq().getQtd());
-					fila.addEnfileirado(no);
+				No no = new No(null);
+				no.setEsq(fila.remover());
+				no.setDir(fila.remover());
+				no.setQtd(no.getDir().getQtd() + no.getEsq().getQtd());
+				fila.addEnfileirado(no);
+
 			} while(fila.size() >= 2);
 			
 		this.raiz = fila.remover(); 
@@ -61,7 +56,7 @@ public class Arvore implements Cloneable {
 
 	private void toHashMap(No n, Map<Byte, String> map, String codigo) {
 		if(n.getDir() == null && n.getEsq() == null)  //Chegou em uma folha
-				map.put((Byte)n.getInfo(), codigo);
+			map.put((Byte)n.getInfo(), codigo);
 		
 		if(n.getDir() != null)
 			toHashMap(n.getDir(), map, codigo + "1"); //Toda vez que vai para direira 1
@@ -74,6 +69,7 @@ public class Arvore implements Cloneable {
 	public Map<Byte, String> toHashMap() {
 		Map<Byte, String> map = new HashMap<>();
 		toHashMap(this.raiz, map, "");
+
 		return map;
 	}
 
@@ -82,12 +78,11 @@ public class Arvore implements Cloneable {
 		ArrayList<Comparable> ret = new ArrayList<>();
 
 		for (int i = 0; i < binario.length(); i++) { //procura a folha
-			if (binario.charAt(i) == '0') {
+			if (binario.charAt(i) == '0') 
 				no = no.getEsq(); //Vai para esquerda pois e 0
-			} 
-			else {
+			else 
 				no = no.getDir(); //Vai para direita pois e 1
-			}
+
 			if (no.getInfo() != null) { //Acha informacao e coloca na array 
 				ret.add(no.getInfo());
 				no = this.raiz;
@@ -98,13 +93,9 @@ public class Arvore implements Cloneable {
 
 	@Override
 	public String toString () {
-		String pre = this.preOrdem(this.raiz),
-		       in = this.inOrdem (this.raiz),
-			   pos = this.posOrdem(this.raiz);
+		String pre = this.preOrdem(this.raiz), in = this.inOrdem (this.raiz), pos = this.posOrdem(this.raiz);
 
-		return "Pre-ordem: " + (pre.equals("") ? "Arvore vazia":pre) + "\n" +
-		       "In-ordem : " + (in .equals("") ? "Arvore vazia":in ) + "\n" +
-			   "Po-ordem: " + (pos.equals("") ? "Arvore vazia":pos);
+		return "Pre-ordem: " + (pre.equals("") ? "Arvore vazia":pre) + "\n" + "In-ordem : " + (in .equals("") ? "Arvore vazia":in ) + "\n" + "Pos-ordem: " + (pos.equals("") ? "Arvore vazia":pos);
 	}
 
 	private boolean equals (No raizA, No raizB) {
@@ -118,7 +109,7 @@ public class Arvore implements Cloneable {
 
 	@Override
     public boolean equals (Object obj) {
-		return obj == this ? true : obj == null || this.getClass() != obj.getClass() ? false : equals(this.raiz, ((Arvore) obj).raiz);
+		return obj == this ? true : obj == null || this.getClass() != obj.getClass() ? false : equals(this.raiz, ((ArvoreHuffmann) obj).raiz);
 	}
 
     private int hashCode (No raiz) {
@@ -141,17 +132,18 @@ public class Arvore implements Cloneable {
 	{
 		if (raiz == null) return null;
 
-		return new No (construtorDeCopia(raiz.getEsq()),
-					   construtorDeCopia(raiz.getDir()),
-			           raiz.getInfo(),
-					   raiz.getQtd()
-			          );
+		return new No (
+			construtorDeCopia(raiz.getEsq()),
+			construtorDeCopia(raiz.getDir()),
+			raiz.getInfo(),
+			raiz.getQtd()
+		);
 	}
 
 	public Object clone () {
-		Arvore ret = null;
+		ArvoreHuffmann ret = null;
 		try {
-			ret = new Arvore (this);
+			ret = new ArvoreHuffmann (this);
 		}
 		catch (Exception erro) {}
 		

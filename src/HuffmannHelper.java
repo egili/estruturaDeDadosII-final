@@ -3,16 +3,16 @@ public class HuffmannHelper {
 	
 	// compressor
 	
-	 public static byte converterStringByte(String x){
+    public static byte converterStringByte(String x){
 			
-	        byte ret = (byte) 0;
-	
-	        for (byte ps = (byte)6, pb = (byte)0; pb < 7; ps--, pb++) {
-	            if(x.charAt(ps) == '1')
-	                ret = setBit(pb, ret);
-	        }
-	        return ret;
-	    }
+        byte ret = (byte) 0;
+
+        for (byte ps = (byte)6, pb = (byte)0; pb < 7; ps--, pb++) {
+            if(x.charAt(ps) == '1')
+                ret = setBit(pb, ret);
+        }
+        return ret;
+    }
 
 	public static byte setBit(byte qualBit,byte valor){
         byte mascara = (byte) 1;
@@ -39,7 +39,6 @@ public class HuffmannHelper {
         for (byte b : array) {
             valor = (valor << 8) + (b & 0xFF);
         }
-
         return valor;
     }
 }
