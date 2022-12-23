@@ -229,12 +229,9 @@ public class Huffmann {
 	    	byte[] bytes = extrairBytesDaArvore(); // extrai os bytes da arvore e insere em um array de bytes
 	        
 	        try {
-<<<<<<< HEAD
+
+				//E a funcao que torna possivel abrir qualquer tipo de arquivo na main passando um caminho do pc
 	            FileOutputStream outputStream = new FileOutputStream(nomeArquivo + "Zip"+ extensao);
-=======
-              //E a funcao que torna possivel abrir qualquer tipo de arquivo na main passando um caminho do pc
-	            FileOutputStream outputStream = new FileOutputStream("Unzipped - "+ nomeArquivo + extensao);
->>>>>>> 5057288c010270578140a7926419e37be0ad1f2c
 	            outputStream.write(bytes);
 
 	        } catch (IOException e) {
