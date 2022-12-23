@@ -229,9 +229,10 @@ public class Huffmann {
 	    	byte[] bytes = extrairBytesDaArvore(); // extrai os bytes da arvore e insere em um array de bytes
 	        
 	        try {
-			 //E a funcao que torna possivel abrir qualquer tipo de arquivo na main passando um caminho do pc
-	            FileOutputStream outputStream = new FileOutputStream(nomeArquivo + " - Unzipped" + extensao);
-	            outputStream.write(bytes); // Escreve o array de byte
+              //E a funcao que torna possivel abrir qualquer tipo de arquivo na main passando um caminho do pc
+	            FileOutputStream outputStream = new FileOutputStream("Unzipped - "+ nomeArquivo + extensao);
+	            outputStream.write(bytes);
+
 	        } catch (IOException e) {
 	            System.out.println("Erro ao criar caminho de extração");
 	            e.printStackTrace();

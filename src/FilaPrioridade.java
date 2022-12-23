@@ -3,50 +3,51 @@ import java.util.List;
 
 public class FilaPrioridade implements Cloneable {
     private List<No> fila;
-
-    public FilaPrioridade() {   //método publico que será usado para a classe huffmann
+    
+    public FilaPrioridade() {   //construtor que será usado para a classe huffmann
         fila = new ArrayList<No>();
     }
     
-    public FilaPrioridade (FilaPrioridade modelo) throws Exception {
+    public FilaPrioridade (FilaPrioridade modelo) throws Exception { 
         if (modelo == null)
             throw new Exception("modelo ausente");
 
-        this.fila = construtorCopia(modelo.fila);
+        this.fila = construtorCopia(modelo.fila); 
     }
-        
+    
     public void addEnfileirado(No elementoAAdcionar) {
-        for (int i = 0; i < fila.size(); i++){
-            if(fila.get(i).getQtd() > elementoAAdcionar.getQtd()) { 
-                fila.add(i, elementoAAdcionar);
+        for (int i = 0; i < fila.size(); i++) { 
+        	//Qtd do item que estamos tentando inserir é menor que o item da lista
+            if(fila.get(i).getQtd() > elementoAAdcionar.getQtd()) {   
+                fila.add(i, elementoAAdcionar); //add elemento no inidice 
                 return;
             }
         }
-        fila.add(elementoAAdcionar);
+        fila.add(elementoAAdcionar); // ou a lista ta vazia ou e o maior 
     }
 
     public void addElemento(No elementoAAdcionar){
-        fila.add(elementoAAdcionar);
+        fila.add(elementoAAdcionar); //add no fim da fila
     }
 
     public No remover() throws Exception {
         if(fila.isEmpty()) 
-            throw new Exception("Não e possivel remover um elemento, a fila esta vazia");
+            throw new Exception("Não e possivel remover um elemento, a fila esta vazia"); //verifica se esta vazia
 
-        return fila.remove(0);
+        return fila.remove(0); //remove o primeiro elemento
     }
 
     public ArrayList<String> retFila() {
         ArrayList<String> result = new ArrayList<>();
         
-        for(No no : fila) { 
-            result.add(no.getInfo() + "");
+        for(No no : fila) { //Declaramos o no e retornamos a informacao e a qtd
+            result.add(no.getInfo() + ""); 
             result.add(no.getQtd() + "");
         }
         return result;
     }
     
-    public int size() { 
+    public int size() { //retorna o tamanho
         return fila.size();
     }
     
