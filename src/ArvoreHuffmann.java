@@ -35,17 +35,15 @@ public class ArvoreHuffmann implements Cloneable {
 		this.raiz = construtorDeCopia(modelo.raiz);
 	}
 
-	// Criacao da arvore pela fila PRECISA MEXER NISSO, MUDAR LOGICA
 	public ArvoreHuffmann (FilaPrioridade fila) { 
 		try {
 			for(int i = fila.size(); i >= 2; i--){
-				No no = new No(null);
-				no.setEsq(fila.remover());
-				no.setDir(fila.remover());
+				No no = new No(fila.remover(), fila.remover(), null);
+
 				no.setQtd(no.getDir().getQtd() + no.getEsq().getQtd());
+
 				fila.addEnfileirado(no);
 			}
-		
 			this.raiz = fila.remover(); 
 		
 		} catch (Exception e) {
