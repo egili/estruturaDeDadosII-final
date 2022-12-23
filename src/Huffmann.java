@@ -7,12 +7,12 @@ public class Huffmann {
 	
 	    byte[] arquivoDeBytes;
 	    FilaPrioridade fila = new FilaPrioridade();
-	    Arvore arvore;
+	    ArvoreHuffmann arvore;
 	
 	    public void compress(String arquivo) throws Exception {
 	    	readFiles(arquivo);
 	        newListaPrioridade();
-	        arvore = new Arvore((FilaPrioridade)fila.clone());
+	        arvore = new ArvoreHuffmann((FilaPrioridade)fila.clone());
 	        newCompressed(arquivo);
 	    }
 	
@@ -24,7 +24,7 @@ public class Huffmann {
 	       accessArquivo.close();
 	   }
 	
-       private String addBytesArvore(Arvore a){
+       private String addBytesArvore(ArvoreHuffmann a){
 	       StringBuilder mapDeBytes = new StringBuilder();
 	       Map<Byte, String>  map = a.toHashMap();
 	       for (byte arquivoDeBytes : this.arquivoDeBytes) {
@@ -106,7 +106,7 @@ public class Huffmann {
 	public class Descompressor {
 		
 	    FilaPrioridade filaP = new FilaPrioridade();
-	    Arvore arvore;
+	    ArvoreHuffmann arvore;
 	    String binario, extensao, nomeArquivo;
 	
 	    public void unzip(String compactado) throws Exception {
@@ -117,7 +117,7 @@ public class Huffmann {
 	        extensao = "." + ItensDoArquivo[1];
 	
 	        readFiles(compactado);
-	        arvore = new Arvore((FilaPrioridade)filaP.clone());
+	        arvore = new ArvoreHuffmann((FilaPrioridade)filaP.clone());
 	        ArrayList<String> filaString = filaP.retFila();
 	
 	        newUnzipper();
