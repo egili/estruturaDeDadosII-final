@@ -6,8 +6,8 @@ public class Main {
             Huffmann.Compressor comp = huffmann.new Compressor(); 
             Huffmann.Descompressor descomp = huffmann.new Descompressor();
             
-            comp.compress("C:\\Users\\olive\\OneDrive\\Documentos\\GitHub\\estruturaDeDadosII-final\\src\\TesteTexto.txt");
-            descomp.unzip("C:\\Users\\olive\\OneDrive\\Documentos\\GitHub\\estruturaDeDadosII-final\\src\\TesteTexto.txt.zip");
+            comp.compress("src\\TesteCSS.css");
+            descomp.unzip("src\\TesteCSS.css.zip");
         }
         catch (Exception e) {
             throw new RuntimeException(e);

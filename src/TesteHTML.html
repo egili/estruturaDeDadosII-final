@@ -1,0 +1,61 @@
+<template>
+	<template if:true={loaded}>
+		<div style="padding-left: 10px; padding-right: 14px; display: flex; flex-direction: column;">
+			<a class="clear-filter-button" onclick={clearFilter}>{customLabel.cleanFilter}</a>
+
+			<template if:true={typologyPicklist.data}>
+				<c-picklist-multi-select label={productMetadata.data.fields.CommercialTypology__c.label} api-name="CommercialTypology__c" options={typologyPicklist.data.values}  onclickedpicklist={clickedPicklist}></c-picklist-multi-select>
+			</template>
+
+			<template if:true={linePicklists}>
+				<c-picklist-multi-select label={productMetadata.data.fields.Line__c.label} api-name="Line__r.Name" options={linePicklists} onclickedpicklist={clickedPicklist}></c-picklist-multi-select>
+			</template>
+		
+			<template if:true={formatPicklists}>
+				<c-picklist-multi-select label={productMetadata.data.fields.NominalFormat__c.label} api-name="NominalFormat__r.Name" options={formatPicklists} onclickedpicklist={clickedPicklist}></c-picklist-multi-select>
+			</template>
+
+			<template if:true={colorPicklist.data}>
+				<c-picklist-multi-select label={productMetadata.data.fields.Color__c.label} api-name="Color__c" options={colorPicklist.data.values} onclickedpicklist={clickedPicklist}></c-picklist-multi-select>
+			</template>
+
+			<template if:true={materialPicklist.data}>
+				<c-picklist-multi-select label={productMetadata.data.fields.MaterialLookandfeel__c.label} api-name="MaterialLookandfeel__c" options={materialPicklist.data.values} onclickedpicklist={clickedPicklist}></c-picklist-multi-select>
+			</template>
+		
+			<template if:true={surfacePicklist.data}>
+				<c-picklist-multi-select label={productMetadata.data.fields.FinishingPrincipalSurface__c.label} api-name="FinishingPrincipalSurface__c" options={surfacePicklist.data.values} onclickedpicklist={clickedPicklist}></c-picklist-multi-select>
+			</template>
+		
+			<template if:true={borderPicklist.data}>
+				<c-picklist-multi-select label={productMetadata.data.fields.Border__c.label} api-name="Border__c" options={borderPicklist.data.values} onclickedpicklist={clickedPicklist}></c-picklist-multi-select>
+			</template>
+		
+			<template if:true={classificationPicklist.data}>
+				<c-picklist-multi-select label={productMetadata.data.fields.Classification__c.label} api-name="Classification__c" options={classificationPicklist.data.values} onclickedpicklist={clickedPicklist}></c-picklist-multi-select>
+			</template>
+		
+			<template if:true={lifecyclePicklist.data}>
+				<c-picklist-multi-select label={productMetadata.data.fields.Lifecycle__c.label} api-name="Lifecycle__c" options={lifecyclePicklist.data.values} onclickedpicklist={clickedPicklist}></c-picklist-multi-select>
+			</template>
+		
+			<template if:true={measurePicklist.data}>
+				<c-picklist-multi-select label={productMetadata.data.fields.QuantityUnitOfMeasure.label} api-name="tolabel(QuantityUnitOfMeasure)" options={measurePicklist.data.values} use-label-instead-api="true" onclickedpicklist={clickedPicklist}></c-picklist-multi-select>
+			</template>
+
+			<div class="slds-grid slds-wrap">
+				<div class="slds-col slds-size_1-of-1">
+					<div class="slds-form-element">
+						<label class="slds-form-element__label" for="text-input">{label.minStock}</label>
+						<div class="slds-form-element__control" >
+							<input type="number" id="text-input" style=" border:0px; background: transparent;" value={minStock} onfocus={clickedPicklist} onchange={onMinStockChanged} placeholder={label.enterValue} class="slds-input" />
+							<div class="line-style"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<button class="slds-button slds-button_neutral filter-button" onclick={applyFilters}>{customLabel.filter}</button>
+		</div>
+	</template>
+</template>
