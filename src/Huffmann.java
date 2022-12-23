@@ -162,7 +162,7 @@ public class Huffmann {
 	                indexAtual = i+3;
 	                break;
 	            }
-	            
+	            //
 				// Se forem divisiveis por 5 são enfileirados
 	            if(i % 5 == 0){
 	                byte[] b = new byte[4]; 
