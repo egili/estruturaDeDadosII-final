@@ -29,10 +29,10 @@ public class No <X extends Comparable<X>>{
         qtd = q;
     }
 
-    public No (No e, No d, X i){
+    public No (No e, No d){
         esq = e;
         dir = d;
-        info = i;
+        info = null;
     }
 
     public No (X i, int q) {

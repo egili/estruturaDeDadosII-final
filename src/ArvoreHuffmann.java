@@ -38,7 +38,7 @@ public class ArvoreHuffmann implements Cloneable {
 	public ArvoreHuffmann (FilaPrioridade fila) { 
 		try {
 			for(int i = fila.size(); i >= 2; i--){
-				No no = new No(fila.remover(), fila.remover(), null);
+				No no = new No(fila.remover(), fila.remover());
 
 				no.setQtd(no.getDir().getQtd() + no.getEsq().getQtd());
 
