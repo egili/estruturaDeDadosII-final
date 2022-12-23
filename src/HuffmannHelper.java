@@ -1,8 +1,10 @@
 
 public class HuffmannHelper {
-	
-	// compressor
-	
+    
+    
+// Compressor
+
+// Classe que contém os métodos auxiliares	
     public static byte converterStringByte(String x){
 			
         byte ret = (byte) 0;
@@ -31,8 +33,7 @@ public class HuffmannHelper {
         return (byte) (valor & mascara);
     }
     
-    // descompresor
-    
+// Descompresor    
     public static int converterArrByteArrInt(byte[] array) {
         int valor = 0;
         
