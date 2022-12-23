@@ -97,7 +97,7 @@ public class Huffmann {
 	
 	            arquivoDeEscita.close();
 	        } catch (IOException e) {
-	            System.out.println("Erro - gerar arquivo compactado");
+	            System.out.println("Erro ao gerar o arquivo compactado");
 	            e.printStackTrace();
 	        }
 	    }
@@ -107,16 +107,16 @@ public class Huffmann {
 		
 	    FilaPrioridade filaP = new FilaPrioridade();
 	    Arvore arvore;
-	    String binario, extensao, arquivo;
+	    String binario, extensao, nomeArquivo;
 	
-	    public void unzip(String arquivoCompactado) throws Exception {
-	        String arquivo = arquivoCompactado.replace("",""); 
+	    public void unzip(String compactado) throws Exception {
+	        String arquivo = compactado.replace("",""); 
 	        String[] ItensDoArquivo = arquivo.split("\\."); 
 	
-	        arquivo = ItensDoArquivo[0];
-	        extensao= "." + ItensDoArquivo[1];
+	        nomeArquivo = ItensDoArquivo[0];
+	        extensao = "." + ItensDoArquivo[1];
 	
-	        readFiles(arquivoCompactado);
+	        readFiles(compactado);
 	        arvore = new Arvore((FilaPrioridade)filaP.clone());
 	        ArrayList<String> filaString = filaP.retFila();
 	
@@ -193,10 +193,10 @@ public class Huffmann {
 	    	byte[] bytes = extrairBytesDaArvore();
 	        
 	        try {
-	            FileOutputStream outputStream = new FileOutputStream(arquivo + "(unzipped)" + extensao);
+	            FileOutputStream outputStream = new FileOutputStream(nomeArquivo + " - Unzipped" + extensao);
 	            outputStream.write(bytes);
 	        } catch (IOException e) {
-	            System.out.println("Erro - criar caminho de extração");
+	            System.out.println("Erro ao criar caminho de extração");
 	            e.printStackTrace();
 	        }
 	    }
