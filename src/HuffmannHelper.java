@@ -41,4 +41,8 @@ public class HuffmannHelper {
         }
         return valor;
     }
+
+    /*public static String removeOriginalFileExtension(String arquivoARemover){
+
+    }*/
 }

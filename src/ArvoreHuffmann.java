@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class ArvoreHuffmann implements Cloneable {
@@ -38,17 +39,16 @@ public class ArvoreHuffmann implements Cloneable {
 	// Criacao da arvore pela fila PRECISA MEXER NISSO, MUDAR LOGICA
 	public ArvoreHuffmann (FilaPrioridade fila) { 
 		try {
-			do {
+			for(int i = fila.size(); i >= 2; i--){
 				No no = new No(null);
 				no.setEsq(fila.remover());
 				no.setDir(fila.remover());
 				no.setQtd(no.getDir().getQtd() + no.getEsq().getQtd());
 				fila.addEnfileirado(no);
-
-			} while(fila.size() >= 2);
-			
-		this.raiz = fila.remover(); 
-			
+			}
+		
+			this.raiz = fila.remover(); 
+		
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}

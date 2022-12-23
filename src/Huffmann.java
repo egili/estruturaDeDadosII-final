@@ -193,7 +193,7 @@ public class Huffmann {
 			byte[] bytes = extrairBytesDaArvore();
 			
 			try {
-				FileOutputStream outputStream = new FileOutputStream(arquivo + "(unzipped)" + extensao);
+				FileOutputStream outputStream = new FileOutputStream(arquivo + " Descompactado" + extensao);
 				outputStream.write(bytes);
 			} catch (IOException e) {
 				System.out.println("Erro - criar caminho de extração");
