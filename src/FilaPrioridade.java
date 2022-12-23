@@ -52,56 +52,51 @@ public class FilaPrioridade implements Cloneable {
     
     @Override
     public boolean equals(Object obj) {
-    	return this == obj ? true : (obj == null) || (!(obj instanceof FilaPrioridade)) || (obj.getClass() != FilaPrioridade.class) || (this.fila != ((FilaPrioridade) obj).fila) ? false : true;
+        return this == obj ? true : (obj == null) || (!(obj instanceof FilaPrioridade)) || (obj.getClass() != FilaPrioridade.class) || (this.fila != ((FilaPrioridade) obj).fila) ? false : true;
     }
     
     @Override
     public int hashCode() {
-    	
-    	int ret = 31;
-    	
-    	try {
+        int ret = 31;
+        try {
 			ret = ret * 13 + new FilaPrioridade(this).hashCode();
 		} catch (Exception ignored) {}
-    	
-    	return ret < 0 ? -ret : ret;
+        return ret < 0 ? -ret : ret;
     }
     
     @Override
     public String toString() {
-    	return String.valueOf(this.fila);
+        return String.valueOf(this.fila);
     }
     
     private List construtorCopia (List<No> fila) {
         if (fila == null) 
-        	return null;
+            return null;
 
         List<No> result =  new ArrayList ();
 
         for (No elementoAAdcionar : fila) {
-        	result.add(
-        			new No(
-        					elementoAAdcionar.getEsq(),
-        					elementoAAdcionar.getDir(),
-        					elementoAAdcionar.getInfo(), 
-        					elementoAAdcionar.getQtd()
-        					)
-        			);
+            result.add(
+            new No(
+                elementoAAdcionar.getEsq(),
+                elementoAAdcionar.getDir(),
+                elementoAAdcionar.getInfo(), 
+                elementoAAdcionar.getQtd()
+                )
+            );
         }
-
         return result;
     }
 
     public Object clone () {
-    	FilaPrioridade ret = null;
+        FilaPrioridade ret = null;
 
         try {
             ret = new FilaPrioridade (this);
         }
         catch (Exception erro){
-        	 System.err.println(erro.getMessage());
+            System.err.println(erro.getMessage());
         }
-
         return ret;
     }
 }

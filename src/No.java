@@ -1,5 +1,4 @@
-public class No <X extends Comparable<X>>
-{
+public class No <X extends Comparable<X>>{
     private X info;
     private No esq, dir;
     private int qtd;
@@ -28,6 +27,12 @@ public class No <X extends Comparable<X>>
         esq = e;
         dir = d;
         qtd = q;
+    }
+
+    public No (No e, No d){
+        esq = e;
+        dir = d;
+        info = null;
     }
 
     public No (X i, int q) {
